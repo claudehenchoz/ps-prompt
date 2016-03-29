@@ -9,12 +9,12 @@ function prompt{
         write-host "" -NoNewline -ForegroundColor Black -BackgroundColor Green
     }
 
-    write-host ("  " + $env:USERNAME.ToUpper() + " ") -foregroundcolor black -BackgroundColor Green -NONEWLINE
-    write-host "" -ForegroundColor Green -BackgroundColor Yellow -NoNewline
-    write-host ("  " + $env:COMPUTERNAME.ToUpper() + " ") -foregroundcolor black -BackgroundColor Yellow -NoNewline
-    write-host "" -ForegroundColor Yellow -BackgroundColor Cyan -NoNewline
-    write-host ("  " + (Get-Location | Get-Item).Name + " ") -ForegroundColor black -BackgroundColor Cyan -NoNewline
-    write-host "" -ForegroundColor Cyan -BackgroundColor DarkCyan -NoNewline
+    Write-Host ("  " + $env:USERNAME.ToUpper() + " ") -foregroundcolor black -BackgroundColor Green -NONEWLINE
+    Write-Host "" -ForegroundColor Green -BackgroundColor Yellow -NoNewline
+    Write-Host ("  " + $env:COMPUTERNAME.ToUpper() + " ") -foregroundcolor black -BackgroundColor Yellow -NoNewline
+    Write-Host "" -ForegroundColor Yellow -BackgroundColor Cyan -NoNewline
+    Write-Host ("  " + (Get-Location | Get-Item).Name + " ") -ForegroundColor black -BackgroundColor Cyan -NoNewline
+    Write-Host "" -ForegroundColor Cyan -BackgroundColor DarkCyan -NoNewline
 
     Write-Host "  " -ForegroundColor white -BackgroundColor DarkCyan -NoNewline
     Write-Host $(Get-Date -Format d)"" -ForegroundColor white -BackgroundColor DarkCyan -NoNewline
@@ -22,8 +22,8 @@ function prompt{
     Write-Host $(Get-Date -Format t)"" -ForegroundColor white -BackgroundColor DarkCyan -NoNewline
     Write-Host " " -ForegroundColor DarkCyan -NoNewline
 
-    if(get-gitdirectory){
-        write-host " "
+    if(Get-GitDirectory){
+        Write-Host " "
         $gitStatus = Get-Location | Get-Item | Get-Gitstatus
         $gitBranch = $gitStatus.Branch
         $gitUpstream = $gitStatus.Upstream
@@ -34,35 +34,35 @@ function prompt{
         $primaryColor = "darkgray"
 
 
-        write-host "  " -BackgroundColor $primaryColor -ForegroundColor white -NoNewline
-        write-host "$gitBranch  " -BackgroundColor $primaryColor -ForegroundColor White -NoNewline
+        Write-Host "  " -BackgroundColor $primaryColor -ForegroundColor white -NoNewline
+        Write-Host "$gitBranch  " -BackgroundColor $primaryColor -ForegroundColor White -NoNewline
         if($gitUpstream -ne $null){
-            write-host "  $gitUpstream " -BackgroundColor $primaryColor -ForegroundColor White -NoNewline
+            Write-Host "  $gitUpstream " -BackgroundColor $primaryColor -ForegroundColor White -NoNewline
         }
 
         $AllStatus = @()
 
         if($gitStatus.hasWorking -eq $True){
             $workingProp = @{total=$($gitWorking.length);color="DarkRed";symbol="";name="Unstaged:"}
-            $Working = new-object -TypeName PSObject -Property $workingProp
+            $Working = New-Object -TypeName PSObject -Property $workingProp
             $Allstatus += $Working
         }
 
         if($gitStatus.hasIndex -eq $True){
             $indexProp = @{total=$($gitIndex.length);color="DarkGreen";symbol="";name="Staged:"}
-            $Index = new-object -TypeName PSObject -Property $indexProp
+            $Index = New-Object -TypeName PSObject -Property $indexProp
             $Allstatus += $Index
         }
 
         if($gitAhead -gt 0){
             $aheadProp = @{total=$gitAhead;color="DarkGreen";symbol="";name="Ahead:"}
-            $Ahead = new-object -TypeName PSObject -Property $aheadProp
+            $Ahead = New-Object -TypeName PSObject -Property $aheadProp
             $Allstatus += $Ahead
         }
 
         if($gitBehind -gt 0){
             $behindProp = @{total=$gitBehind;color="DarkRed";symbol="";name="Behind:"}
-            $Behind = new-object -TypeName PSObject -Property $behindProp
+            $Behind = New-Object -TypeName PSObject -Property $behindProp
             $Allstatus += $Behind
         }
         if($allstatus.length -ne 0){
@@ -71,19 +71,19 @@ function prompt{
                 $nextItem = $allstatus[$g + 1]
                 $preItem = $allstatus[$g - 1]
                 if($g -eq 0){
-                    write-host " " -ForegroundColor DarkGray -BackgroundColor $curitem.color -NoNewline
+                    Write-Host " " -ForegroundColor DarkGray -BackgroundColor $curitem.color -NoNewline
                 } else {
-                    write-host " " -ForegroundColor $preitem.color -BackgroundColor $curitem.color -NoNewline
+                    Write-Host " " -ForegroundColor $preitem.color -BackgroundColor $curitem.color -NoNewline
                 }
-                write-host " $($curitem.symbol) $($curitem.name) $($curitem.total) " -BackgroundColor $curitem.color -nonewline
+                Write-Host " $($curitem.symbol) $($curitem.name) $($curitem.total) " -BackgroundColor $curitem.color -nonewline
                 if($($g+1) -eq $allstatus.length){
-                    write-host " " -ForegroundColor $curitem.color -NoNewline
+                    Write-Host " " -ForegroundColor $curitem.color -NoNewline
                 }
             }
         } else {
-            write-host " " -ForegroundColor DarkGray -NoNewline
+            Write-Host " " -ForegroundColor DarkGray -NoNewline
         }
     } 
-    write-host " "
+    Write-Host " "
     Return "PS> "
 }
