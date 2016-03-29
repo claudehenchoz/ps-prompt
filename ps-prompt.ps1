@@ -2,7 +2,6 @@
     ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")
 }
 
-# Set Prompt
 function prompt{
     if(Test-IsAdmin){
         Write-Host "  " -NoNewline -BackgroundColor Black -ForegroundColor red
